@@ -1,9 +1,10 @@
-const express = require('express');
+import express from 'express';
+import { getNotes, getNoteById, getTestError } from '../controllers/notesController.js';
+
 const router = express.Router();
-const { getNotes, getNoteById, getTestError } = require('../controllers/notesController');
 
 router.get('/notes', getNotes);
 router.get('/notes/:noteId', getNoteById);
 router.get('/test-error', getTestError);
 
-module.exports = router;
+export default router;

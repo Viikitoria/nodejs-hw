@@ -1,10 +1,10 @@
-const notes = require('../data/notes');
+import notes from '../data/notes.js';
 
-const getNotes = (req, res) => {
+export const getNotes = (req, res) => {
   res.json(notes);
 };
 
-const getNoteById = (req, res, next) => {
+export const getNoteById = (req, res, next) => {
   const { noteId } = req.params;
   const note = notes.find((n) => n.id === noteId);
 
@@ -17,16 +17,10 @@ const getNoteById = (req, res, next) => {
   res.json(note);
 };
 
-const getTestError = (req, res, next) => {
+export const getTestError = (req, res, next) => {
   try {
     throw new Error('Це тестова помилка для перевірки обробника 500');
   } catch (error) {
     next(error);
   }
-};
-
-module.exports = {
-  getNotes,
-  getNoteById,
-  getTestError,
 };

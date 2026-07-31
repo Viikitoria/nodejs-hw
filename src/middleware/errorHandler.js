@@ -1,4 +1,4 @@
-const errorHandler = (err, req, res, next) => {
+export const errorHandler = (err, req, res, next) => {
   console.error('Помилка:', err.message);
   console.error('Стек:', err.stack);
 
@@ -10,5 +10,3 @@ const errorHandler = (err, req, res, next) => {
     message,
   });
 };
-
-module.exports = { errorHandler };
