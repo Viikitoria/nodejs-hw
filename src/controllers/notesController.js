@@ -1,7 +1,7 @@
 import Note from '../models/note.js';
 import createHttpError from 'http-errors';
 
-export const getNotes = async (req, res, next) => {
+export const getAllNotes = async (req, res, next) => {
   try {
     const notes = await Note.find();
     res.json(notes);
@@ -27,13 +27,8 @@ export const getNoteById = async (req, res, next) => {
 
 export const createNote = async (req, res, next) => {
   try {
-    const { title, content } = req.body;
-
-    if (!title || !content) {
-      throw createHttpError(400, 'Назва та вміст нотатки обов\'язкові');
-    }
-
-    const newNote = await Note.create({ title, content });
+    const { title, content, tag } = req.body;
+    const newNote = await Note.create({ title, content, tag });
     res.status(201).json(newNote);
   } catch (error) {
     next(error);
@@ -43,12 +38,12 @@ export const createNote = async (req, res, next) => {
 export const updateNote = async (req, res, next) => {
   try {
     const { noteId } = req.params;
-    const { title, content } = req.body;
+    const { title, content, tag } = req.body;
 
     const updatedNote = await Note.findByIdAndUpdate(
       noteId,
-      { title, content },
-      { new: true, runValidators: true }
+      { title, content, tag },
+      { returnDocument: 'after', runValidators: true }
     );
 
     if (!updatedNote) {
@@ -70,7 +65,7 @@ export const deleteNote = async (req, res, next) => {
       throw createHttpError(404, `Нотатку з ID ${noteId} не знайдено`);
     }
 
-    res.status(204).send();
+    res.status(200).json(deletedNote);
   } catch (error) {
     next(error);
   }

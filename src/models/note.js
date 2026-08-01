@@ -4,14 +4,19 @@ const noteSchema = new Schema(
   {
     title: {
       type: String,
-      required: [true, 'Назва нотатки обов\'язкова'],
-      minlength: [3, 'Назва має містити щонайменше 3 символи'],
-      maxlength: [100, 'Назва не може перевищувати 100 символів'],
+      trim: true,
+      default: 'Untitled',
     },
     content: {
       type: String,
-      required: [true, 'Вміст нотатки обов\'язковий'],
-      minlength: [5, 'Вміст має містити щонайменше 5 символів'],
+      trim: true,
+      default: '',
+    },
+    tag: {
+      type: String,
+      trim: true,
+      default: 'Todo',
+      enum: ['Todo', 'In Progress', 'Done'],
     },
   },
   {

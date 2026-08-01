@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import logger from './middleware/logger.js';
+import { logger } from './middleware/logger.js';
 import connectMongoDB from './db/connectMongoDB.js';
 import notesRoutes from './routes/notesRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
