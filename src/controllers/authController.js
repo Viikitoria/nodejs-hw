@@ -60,6 +60,11 @@ export const refreshUserSession = async (req, res, next) => {
     }
 
     if (new Date() > session.refreshTokenValidUntil) {
+      // ✨ Видаляємо стару сесію та очищаємо кукі
+      await Session.deleteOne({ _id: sessionId });
+      res.clearCookie('accessToken');
+      res.clearCookie('refreshToken');
+      res.clearCookie('sessionId');
       throw createHttpError(401, 'Session token expired');
     }
 
