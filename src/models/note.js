@@ -4,8 +4,8 @@ const noteSchema = new Schema(
   {
     title: {
       type: String,
+      required: true,
       trim: true,
-      default: 'Untitled',
     },
     content: {
       type: String,
@@ -14,9 +14,19 @@ const noteSchema = new Schema(
     },
     tag: {
       type: String,
-      trim: true,
-      default: 'Todo',
-      enum: ['Todo', 'In Progress', 'Done'],
+      enum: [
+        'Work',
+        'Personal',
+        'Study',
+        'Health',
+        'Finance',
+        'Travel',
+        'Shopping',
+        'Home',
+        'Idea',
+        'Other',
+      ],
+      default: 'Other',
     },
   },
   {
