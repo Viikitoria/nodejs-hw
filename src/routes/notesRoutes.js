@@ -1,10 +1,18 @@
 import express from 'express';
-import { getNotes, getNoteById, getTestError } from '../controllers/notesController.js';
+import {
+  getNotes,
+  getNoteById,
+  createNote,
+  updateNote,
+  deleteNote,
+} from '../controllers/notesController.js';
 
 const router = express.Router();
 
 router.get('/notes', getNotes);
 router.get('/notes/:noteId', getNoteById);
-router.get('/test-error', getTestError);
+router.post('/notes', createNote);
+router.patch('/notes/:noteId', updateNote);
+router.delete('/notes/:noteId', deleteNote);
 
 export default router;
