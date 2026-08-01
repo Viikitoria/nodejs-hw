@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import pino from 'pino-http';
+import logger from './middleware/logger.js';
 import connectMongoDB from './db/connectMongoDB.js';
 import notesRoutes from './routes/notesRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
@@ -12,14 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(pino({
-  transport: {
-    target: 'pino-pretty',
-    options: {
-      colorize: true,
-    },
-  },
-}));
+app.use(logger);
 
 app.use('/', notesRoutes);
 
