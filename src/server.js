@@ -6,6 +6,7 @@ import { connectMongoDB } from './db/connectMongoDB.js';
 import notesRoutes from './routes/notesRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
+import { errors } from 'celebrate';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,6 +17,7 @@ app.use(logger);
 
 app.use('/', notesRoutes);
 
+app.use(errors());
 app.use(notFoundHandler);
 app.use(errorHandler);
 
