@@ -1,6 +1,8 @@
 import { model, Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 
+const DEFAULT_AVATAR = 'https://ac.goit.global/fullstack/react/default-avatar.jpg';
+
 const userSchema = new Schema(
   {
     username: {
@@ -17,6 +19,10 @@ const userSchema = new Schema(
       type: String,
       required: true,
       minlength: 8,
+    },
+    avatar: {
+      type: String,
+      default: DEFAULT_AVATAR,
     },
   },
   {

@@ -6,6 +6,7 @@ import { logger } from './middleware/logger.js';
 import { connectMongoDB } from './db/connectMongoDB.js';
 import notesRoutes from './routes/notesRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errors } from 'celebrate';
@@ -23,6 +24,7 @@ app.use(logger);
 
 app.use('/', authRoutes);
 app.use('/', notesRoutes);
+app.use('/', userRoutes);
 
 app.use(errors());
 app.use(notFoundHandler);
