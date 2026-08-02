@@ -30,4 +30,8 @@ export const updateNoteSchema = Joi.object({
   title: Joi.string().min(1),
   content: Joi.string().allow(''),
   tag: Joi.string().valid(...TAGS),
-}).min(1).message('Body cannot be empty');
+})
+  .or('title', 'content', 'tag')
+  .messages({
+    'object.missing': 'Body cannot be empty',
+  });
