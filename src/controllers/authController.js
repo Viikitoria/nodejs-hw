@@ -5,6 +5,8 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs/promises';
+import handlebars from 'handlebars';
 import { createSession, setSessionCookies } from '../services/auth.js';
 import { sendEmail } from '../utils/sendMail.js';
 
@@ -125,25 +127,26 @@ export const requestResetEmail = async (req, res, next) => {
 
     const resetLink = `${process.env.FRONTEND_DOMAIN}/reset-password?token=${token}`;
 
+    // ===== КОМПІЛЯЦІЯ ШАБЛОНУ =====
     const templatePath = path.join(__dirname, '../templates/reset-password-email.html');
+    const templateContent = await fs.readFile(templatePath, 'utf-8');
+    const compiledTemplate = handlebars.compile(templateContent);
+    const html = compiledTemplate({
+      username: user.username || user.email,
+      resetLink,
+    });
 
+    // ===== НАДСИЛАННЯ EMAIL =====
     await sendEmail({
+      from: process.env.SMTP_FROM,
       to: user.email,
       subject: 'Відновлення пароля',
-      templatePath,
-      data: {
-        username: user.username || user.email,
-        resetLink,
-      },
+      html,
     });
 
     res.status(200).json({ message: 'Password reset email sent successfully' });
   } catch (error) {
-    if (error.message === 'Failed to send the email, please try again later.') {
-      next(createHttpError(500, 'Failed to send the email, please try again later.'));
-    } else {
-      next(error);
-    }
+    next(createHttpError(500, 'Failed to send the email, please try again later.'));
   }
 };
 

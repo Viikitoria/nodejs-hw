@@ -1,11 +1,4 @@
 import nodemailer from 'nodemailer';
-import fs from 'fs/promises';
-import handlebars from 'handlebars';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -18,17 +11,14 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendEmail = async (options) => {
-  const { to, subject, templatePath, data } = options;
-
-  const templateContent = await fs.readFile(templatePath, 'utf-8');
-  const compiledTemplate = handlebars.compile(templateContent);
-  const html = compiledTemplate(data);
+  const { from, to, subject, html, text } = options;
 
   const mailOptions = {
-    from: process.env.SMTP_FROM,
+    from: from || process.env.SMTP_FROM,
     to,
     subject,
     html,
+    text,
   };
 
   return await transporter.sendMail(mailOptions);
