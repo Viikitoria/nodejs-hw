@@ -26,9 +26,10 @@ app.use('/', authRoutes);
 app.use('/', notesRoutes);
 app.use('/', userRoutes);
 
-app.use(errors());
-app.use(notFoundHandler);
-app.use(errorHandler);
+// ✅ ПРАВИЛЬНИЙ ПОРЯДОК:
+app.use(notFoundHandler);  // 1. Спочатку 404
+app.use(errors());         // 2. Потім помилки celebrate
+app.use(errorHandler);     // 3. Потім загальні помилки
 
 const startServer = async () => {
   try {

@@ -1,7 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary';
-import { v4 as uuidv4 } from 'uuid';
 
-// Налаштування Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -13,7 +11,10 @@ export const saveFileToCloudinary = (buffer, userId) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
         folder: `avatars/${userId}`,
-        public_id: uuidv4(),
+        public_id: userId,
+        resource_type: 'image',
+        overwrite: true,
+        unique_filename: false,
         transformation: [
           { width: 200, height: 200, crop: 'fill' },
         ],

@@ -13,7 +13,7 @@ export const updateUserAvatar = async (req, res, next) => {
     const updatedUser = await User.findByIdAndUpdate(
       req.user._id,
       { avatar: result.secure_url },
-      { new: true }
+      { returnDocument: 'after' }
     );
 
     if (!updatedUser) {
